@@ -20,10 +20,47 @@ export function getPosts({ token }) {
     })
     .then((data) => {
       return data.posts;
-    });
-}
+    })
+};
 
-// https://github.com/GlebkaF/webdev-hw-api/blob/main/pages/api/user/README.md#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F
+export function getUserPosts({ userId, token }) {
+  return fetch(postsHost + `/user-posts/${userId}`, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      return data.posts;
+    })
+};
+export function addPosts({ description, imageUrl, token }) {
+  return fetch(postsHost, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+    body: JSON.stringify({
+      description: description,
+      imageUrl: imageUrl,
+    }),
+
+  }).then((response) => {
+    if (response.status === 400) {
+      throw new Error("Ошибка в добавлении");
+    }
+    return response.json();
+  });
+};
+
+
 export function registerUser({ login, password, name, imageUrl }) {
   return fetch(baseHost + "/api/user", {
     method: "POST",
@@ -67,4 +104,41 @@ export function uploadImage({ file }) {
   }).then((response) => {
     return response.json();
   });
-}
+};
+export const likeApi = ({ postId, token }) => {
+  return fetch(`${postsHost}/${postId}/like`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    }
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Ошибка при установке лайка:", error);
+      throw error;
+    });
+};
+
+export const dislikeApi = ({ postId, token }) => {
+  return fetch(`${postsHost}/${postId}/dislike`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    }
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Ошибка при удалении лайка:", error);
+      throw error;
+    });
+};
