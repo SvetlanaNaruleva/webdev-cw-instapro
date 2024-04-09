@@ -13,3 +13,10 @@ export function getUserFromLocalStorage(user) {
 export function removeUserFromLocalStorage(user) {
   window.localStorage.removeItem("user");
 }
+
+export function sanitize(text) {
+  return text
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll(" ", ""); //для удаления всех пробелов внутри строки
+};

@@ -13,11 +13,14 @@ import { renderLoadingPageComponent } from "./components/loading-page-component.
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
+  sanitize,
   saveUserToLocalStorage,
 } from "./helpers.js";
 import { addPosts } from "./api.js";
 import { renderUserPostsPageComponent } from "./components/user-posts-page-component.js";
 import { getUserPosts } from "./api.js";
+// import { formatDistanceToNow } from "date-fns";
+
 
 
 
@@ -39,6 +42,10 @@ export const logout = () => {
   removeUserFromLocalStorage();
   goToPage(POSTS_PAGE);
 };
+
+// export const formateDate = (date) => {
+//   return formatDistanceToNow(new Date(date), { addSuffix: true, locale: ru });
+// };
 
 export const goToPage = (newPage, data) => {
   if (
@@ -128,7 +135,8 @@ const renderApp = () => {
         // TODO: реализовать добавление поста в API
         console.log("Добавляю пост...", { description, imageUrl });
         addPosts({
-          description: description,
+          // description: description,
+          description: sanitize(description),
           imageUrl: imageUrl,
           token: getToken(),
         })
