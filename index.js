@@ -19,9 +19,6 @@ import {
 import { addPosts } from "./api.js";
 import { renderUserPostsPageComponent } from "./components/user-posts-page-component.js";
 import { getUserPosts } from "./api.js";
-// import { formatDistanceToNow } from "date-fns";
-
-
 
 
 export let user = getUserFromLocalStorage();
@@ -43,9 +40,6 @@ export const logout = () => {
   goToPage(POSTS_PAGE);
 };
 
-// export const formateDate = (date) => {
-//   return formatDistanceToNow(new Date(date), { addSuffix: true, locale: ru });
-// };
 
 export const goToPage = (newPage, data) => {
   if (

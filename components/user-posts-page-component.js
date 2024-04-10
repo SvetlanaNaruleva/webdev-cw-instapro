@@ -1,4 +1,4 @@
-import { LOADING_PAGE, POSTS_PAGE } from "../routes.js";
+import { LOADING_PAGE, POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, getToken } from "../index.js";
 import { likeApi, dislikeApi } from "../api.js";
@@ -59,18 +59,21 @@ export function renderUserPostsPageComponent({ appEl }) {
 
     const postId = target.dataset.postId;
     const isLiked = target.dataset.isLiked === "true";
+    const userEl = target.closest(".post").querySelector(".post-header");
 
-    handleLikeButtonClick({ postId, isLiked });
+    handleLikeButtonClick({ postId, isLiked, userEl });
   });
 
-  const handleLikeButtonClick = ({ postId, isLiked }) => {
+  const handleLikeButtonClick = ({ postId, isLiked, userEl }) => {
     const action = isLiked ? dislikeApi : likeApi;
     //const nextPage = isLiked ? POSTS_PAGE : LOADING_PAGE;
 
-    goToPage(LOADING_PAGE);
+    // goToPage(LOADING_PAGE);
 
     action({ postId, token: getToken() })
-      .then(() => goToPage(POSTS_PAGE))
+      .then(() => goToPage(USER_POSTS_PAGE, {
+        userId: userEl.dataset.userId,
+      }))
       .catch((error) => {
         console.error("Ошибка при изменении статуса лайка:", error);
         // goToPage(nextPage);
