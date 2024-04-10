@@ -65,7 +65,7 @@ ${user ? `<button
   <span class="user-name">${post.user.name}</span>
   ${post.description}
 </p>
-<p class="post-date"> ${formatDistanceToNow(new Date(), { addSuffix: true, locale: ru })} </p>
+<p class="post-date"> ${formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ru })} </p>
 </li>
 `;
     postsHTML.innerHTML += postHTML;
