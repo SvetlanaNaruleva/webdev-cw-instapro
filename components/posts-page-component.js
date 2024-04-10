@@ -4,6 +4,7 @@ import { posts, goToPage, getToken, user } from "../index.js";
 import { attributesLikes } from "../attributes-likes.js";
 import { formatDistanceToNow } from "date-fns";
 
+
 export function renderPostsPageComponent({ appEl }) {
 
     // TODO: реализовать рендер постов из api

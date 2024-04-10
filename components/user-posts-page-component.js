@@ -49,6 +49,7 @@ export function renderUserPostsPageComponent({ appEl }) {
     element: document.querySelector(".header-container"),
   });
 
+
   postsContainer.addEventListener("click", (event) => {
     const target = event.target.closest(".like-button");
     if (!target) return;
@@ -61,15 +62,15 @@ export function renderUserPostsPageComponent({ appEl }) {
 
   const handleLikeButtonClick = ({ postId, isLiked }) => {
     const action = isLiked ? dislikeApi : likeApi;
-    const nextPage = isLiked ? POSTS_PAGE : LOADING_PAGE;
+    //const nextPage = isLiked ? POSTS_PAGE : LOADING_PAGE;
 
     goToPage(LOADING_PAGE);
 
     action({ postId, token: getToken() })
-      .then(() => goToPage(nextPage))
+      .then(() => goToPage(POSTS_PAGE))
       .catch((error) => {
         console.error("Ошибка при изменении статуса лайка:", error);
-        goToPage(nextPage);
+        // goToPage(nextPage);
       });
   };
 }
